@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+}
+
+body nav {
+  height: 60px;
+  background-color: #333;
+  padding: 5px 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body nav h1 {
+  color: #fff;
+  font-weight: normal;
+}
+
+body nav .btns #to-json {
+  margin-right: 20px;
+}
+
+body nav .btns #to-json a {
+  text-decoration: none;
+  color: #fff;
+}
+
+body nav .btns #toggle-type {
+  margin-right: 20px;
+}
+
+body nav .btns .button {
+  font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  padding: 5px 20px;
+  background-color: #8040F7;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+body nav .btns .button:hover {
+  background-color: #7028f6;
+}
+
+body nav .btns .button:active {
+  -webkit-transform: scale(1.05, 1);
+          transform: scale(1.05, 1);
+}
+
+body .stats {
+  text-align: center;
+  padding: 20px 0;
+}
+
+body .stats .date, body .stats .temp, body .stats .hu {
+  font-weight: normal;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+  color: #333;
+}
+
+body .stats .date {
+  font-size: 40px;
+}
+
+body .stats .temp, body .stats .hu {
+  font-size: 30px;
+}
+
+body .chart-container {
+  width: 70vw;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1000px) {
+  body nav .btns #toggle-type {
+    display: none;
+  }
+  body nav .btns #to-json {
+    display: none;
+  }
+  body .chart-container {
+    display: none;
+  }
+}
+/*# sourceMappingURL=style.css.map */

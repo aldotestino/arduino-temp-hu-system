@@ -4,20 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-  <title>Home Temperature</title>
+  <title>Home Stats</title>
 </head>
 
 <body>
-  <div class="container">
-    <h1 class="date" date></h1>
-    <span class="temp" temp></span><span class="deg"> °C</span>
-    <br>
-    <span class="hu" hu></span><span class="per"> %</span>
+
+  <nav>
+    <h1>Home Stats</h1>
+    <div class="btns">
+      <button id="to-json" class="button"><a href="/api/v1/stats">JSON</a></button>
+      <button id="toggle-type" class="button">Tipo</button>
+      <button id="toggle-theme" class="button">Tema</button>
+    </div>
+  </nav>
+
+  <div class="stats">
+    <h1 class="date"></h1>
+    <h2 class="temp"></h2>
+    <h2 class="hu"></h2>
   </div>
 
-  <div class="chart-conrtainer" chart-container></div>
+  <div class="chart-container">
+    <canvas id="chart" aspectRatio="1"></canvas>
+  </div>
 
   <script src="./script.js"></script>
 </body>

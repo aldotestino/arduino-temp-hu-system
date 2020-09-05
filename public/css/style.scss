@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all .2s linear;
+
+  nav{
+    height: 60px;
+    background-color: #333;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1{
+      color: #fff;
+      font-weight: normal;
+    }
+
+    .btns{
+      #to-json{
+        margin-right: 20px;
+        a{
+          text-decoration: none;
+          color: #fff;
+        }
+      }
+      #toggle-type{
+        margin-right: 20px;
+      }
+      .button{
+        font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 18px;
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+        padding: 5px 20px;
+        background-color: #8040F7;
+        outline: none;
+        border: none;
+        border-radius: 20px;
+        color: #fff;
+        transition: all .1s linear;
+        &:hover{
+          background-color: darken($color: #8040F7, $amount: 5);
+        }
+        &:active{
+          transform: scale(1.05,1);
+        }
+      }
+
+    }
+  }
+
+  .stats{
+    text-align: center;
+    padding: 20px 0;
+    .date, .temp, .hu{
+      font-weight: normal;
+      transition: all .2s linear;
+      color: #333;
+    }
+    .date{
+      font-size: 40px;
+    }
+    .temp, .hu{
+      font-size: 30px;
+    };
+  }
+
+  .chart-container{
+    width: 70vw;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    nav{
+      .btns{
+        #toggle-type{
+          display: none; 
+        }
+        #to-json{
+          display: none;
+        }
+      }
+    }
+    .chart-container{
+      display: none;
+    }
+  }
+}
+

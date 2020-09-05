@@ -1,65 +1,125 @@
-const htmlDate = document.querySelector('[date]');
-const htmlTemp = document.querySelector('[temp]');
-const htmlHu = document.querySelector('[hu]');
-const chartContainer = document.querySelector('[chart-container]');
+const currentDate = document.querySelector('.date');
+const currentTemp = document.querySelector('.temp');
+const currentHu = document.querySelector('.hu');
+const toggleTheme = document.querySelector('#toggle-theme');
+const toggleType = document.querySelector('#toggle-type');
+const url = '/api/v1/stats';
+let currentTheme = localStorage.getItem('home-theme') ? localStorage.getItem('home-theme') : 'light';
+
+const colors = {
+  light: {
+    t: 'rgba(255, 99, 132, 1)',
+    h: 'rgba(153, 102, 255, 1)',
+    bg: '#fff',
+    text: '#333'
+  },
+  dark: {
+    t: 'rgba(235, 130, 88, 1)',
+    h: 'rgba(153, 93, 129, 1)',
+    bg: '#555',
+    text: '#fff'
+  }
+}
+
+window.addEventListener('load', () => {
+  updateDomElements();
+  Chart.defaults.global.defaultFontColor = colors[currentTheme].text;
+  Chart.defaults.global.defaultFontSize = 20;
+});
+
+function updateDomElements() {
+  document.body.style.backgroundColor = colors[currentTheme].bg;
+  currentDate.style.color = colors[currentTheme].text;
+  currentTemp.style.color = colors[currentTheme].text;
+  currentHu.style.color = colors[currentTheme].text;
+}
+
+toggleType.addEventListener('click', () => {
+  if (chart.config.type === 'line')
+    chart.config.type = 'bar';
+  else
+    chart.config.type = 'line';
+  chart.update();
+})
+
+toggleTheme.addEventListener('click', () => {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  localStorage.setItem('home-theme', currentTheme);
+  updateDomElements();
+  chart.data.datasets[0].backgroundColor = colors[currentTheme].t;
+  chart.data.datasets[0].borderColor = colors[currentTheme].t;
+  chart.data.datasets[1].backgroundColor = colors[currentTheme].h;
+  chart.data.datasets[1].borderColor = colors[currentTheme].h;
+  Chart.defaults.global.defaultFontColor = colors[currentTheme].text;
+  chart.update();
+});
 
 getData();
 setInterval(() => getData(), 4000);
 
-function getData() {
-  fetch('/api/v1/stats')
-    .then(res => res.json())
-    .then(data => showData(data))
-    .catch(err => { });
+async function getData() {
+  try {
+    const stats = await fetch(url).then(res => res.json());
+    if (stats.error) {
+      console.log(stats);
+    }
+    else {
+      updateStats(stats);
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
-function showData(data) {
-  if (data.error_message) return console.log(data.error_message);
-  const d = new Date(data.currentDate);
-  if (data.temp < 16) {
-    document.body.classList.add('cold');
-  } else {
-    document.body.classList.remove('cold');
-  }
-  htmlDate.textContent = `${format(d.getHours())}:${format(d.getMinutes())}`;
-  htmlTemp.textContent = `Temperatura: ${data.currentTemp}`;
-  htmlHu.textContent = `Umidità: ${data.currentHu}`;
-  showChart(data.story.dates.map(date => new Date(date).toLocaleTimeString()), data.story.temps, data.story.hus);
+function updateStats(stats) {
+  const d = new Date(stats.currentDate);
+  currentDate.textContent = `${format(d.getHours())}:${format(d.getMinutes())}`;
+  currentTemp.textContent = `Temperatura: ${stats.currentTemp} °C`;
+  currentHu.textContent = `Umidità: ${stats.currentHu} %`;
+  updateChart(stats.story.dates.map(date => new Date(date).toLocaleTimeString()), stats.story.temps, stats.story.hus);
 }
 
 function format(n) {
   return (n <= 9) ? "0" + n : "" + n;
 }
 
-function showChart(dates, temps, hus) {
-  chartContainer.innerHTML = '<canvas id="chart" width="900" height="300"></canvas>';
-  const ctx = document.getElementById('chart').getContext('2d');
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: dates,
-      datasets: [{
-        label: 'Temperatura',
-        data: temps,
-        backgroundColor: "transparent",
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 2
-      }, {
-        label: 'Umidità',
-        data: hus,
-        backgroundColor: "transparent",
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 2
-      }],
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Temperatura',
+      data: [],
+      backgroundColor: colors[currentTheme].t,
+      borderColor: colors[currentTheme].t,
+      fill: false,
+      borderWidth: 5
     },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
-        }]
-      }
+    {
+      label: 'Umidità',
+      data: [],
+      backgroundColor: colors[currentTheme].h,
+      borderColor: colors[currentTheme].h,
+      fill: false,
+      borderWidth: 5
     }
-  });
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }]
+    }
+  }
+});
+
+function updateChart(dates, temps, hus) {
+  chart.data.labels = dates;
+  chart.data.datasets[0].data = temps;
+  chart.data.datasets[1].data = hus;
+  chart.update();
 }
