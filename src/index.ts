@@ -1,4 +1,4 @@
-import express, { Application, Response, NextFunction } from 'express';
+import express, { Application, Response } from 'express';
 import SerialPort from 'serialport';
 import path from 'path';
 
