@@ -4,7 +4,7 @@ const currentHu = document.querySelector('.hu');
 const toggleTheme = document.querySelector('#toggle-theme');
 const toggleType = document.querySelector('#toggle-type');
 const url = '/api/v1/stats';
-let currentTheme = localStorage.getItem('home-theme') ? localStorage.getItem('home-theme') : 'light';
+let currentTheme = localStorage.getItem('home-theme') || 'light';
 
 const colors = {
   light: {
