@@ -6,13 +6,9 @@ import Stats from './stats';
 
 const baudRate: number = 9600;
 const comPort: string = 'Com5';
-
-const NO_DATA = -9999
+const MAX_STORY_LEN = 20;
 
 let stats: Stats = {
-  currentTemp: NO_DATA,
-  currentHu: NO_DATA,
-  currentDate: new Date(),
   story: {
     temps: [],
     hus: [],
@@ -33,21 +29,19 @@ try {
     stats.currentTemp = parseFloat(t);
     stats.currentHu = parseFloat(h);
     stats.currentDate = new Date();
-    if (stats.story.temps.length > 19) {
+    stats.story.temps.push(stats.currentTemp);
+    stats.story.hus.push(stats.currentHu);
+    stats.story.dates.push(stats.currentDate);
+    if (stats.story.temps.length > MAX_STORY_LEN) {
       stats.story.temps.shift();
       stats.story.hus.shift();
       stats.story.dates.shift();
     }
-    stats.story.temps.push(stats.currentTemp);
-    stats.story.hus.push(stats.currentHu);
-    stats.story.dates.push(stats.currentDate);
-
     console.log(`Temp: ${stats.currentTemp}, Hu: ${stats.currentHu}, Date: ${stats.currentDate.toLocaleTimeString()}`);
   });
 } catch (err) {
   console.log(err.message);
 }
-
 
 const app: Application = express();
 const PORT: number = 3002;
@@ -55,7 +49,7 @@ const PORT: number = 3002;
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.get('/api/v1/stats', (_, res: Response) => {
   try {
-    if (stats.currentTemp === NO_DATA) {
+    if (stats.currentTemp === undefined) {
       throw new Error('Data hasn\'t already been retrieved.');
     } else {
       res.json(stats);
