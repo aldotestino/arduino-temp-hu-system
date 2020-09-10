@@ -39,7 +39,6 @@ try {
       stats.story.hus.shift();
       stats.story.dates.shift();
     }
-    console.log(`Temp: ${stats.currentTemp}, Hu: ${stats.currentHu}, Date: ${stats.currentDate.toLocaleTimeString()}`);
   });
 } catch (err) {
   console.log(err.message);
