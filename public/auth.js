@@ -40,9 +40,7 @@ loginForm.addEventListener('submit', async e => {
     if (!res.error) {
       localStorage.setItem('user_access_id', res._id);
       window.location.replace('./stats.html');
-      registerForm.reset();
     } else {
-      console.log(res);
       alert(res.error);
     }
   } catch (err) {
@@ -74,7 +72,6 @@ registerForm.addEventListener('submit', async e => {
       registerContainer.style.display = "none"
       loginContainer.style.display = "block";
     } else {
-      console.log(res);
       alert(res.error);
     }
   } catch (err) {
