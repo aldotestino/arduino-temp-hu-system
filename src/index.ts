@@ -1,6 +1,8 @@
-import express, { Application, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import SerialPort from 'serialport';
 import path from 'path';
+import userRoute from './routes/user';
+import { idExists } from './db/users';
 
 import Stats from './stats';
 
@@ -14,7 +16,7 @@ let stats: Stats = {
     hus: [],
     dates: []
   }
-};
+}
 
 const Readline = SerialPort.parsers.Readline;
 
@@ -47,8 +49,15 @@ const app: Application = express();
 const PORT: number = 3002;
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
-app.get('/api/v1/stats', (_, res: Response) => {
+app.use(express.json());
+app.use('/user', userRoute);
+app.get('/api/v1/stats', async (req: Request, res: Response) => {
   try {
+    const userID = req.headers.user_access_id as string;
+    const canAccess = await idExists(userID);
+    if (!canAccess) {
+      throw new Error('Invalid user Id!');
+    }
     if (stats.currentTemp === undefined) {
       throw new Error('Data hasn\'t already been retrieved.');
     } else {

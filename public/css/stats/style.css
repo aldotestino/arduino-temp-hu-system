@@ -33,16 +33,11 @@ body nav h1 {
   font-weight: normal;
 }
 
-body nav .btns #to-json {
+body nav .btns #toggle-type {
   margin-right: 20px;
 }
 
-body nav .btns #to-json a {
-  text-decoration: none;
-  color: #fff;
-}
-
-body nav .btns #toggle-type {
+body nav .btns #toggle-theme {
   margin-right: 20px;
 }
 

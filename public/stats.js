@@ -3,8 +3,10 @@ const currentTemp = document.querySelector('.temp');
 const currentHu = document.querySelector('.hu');
 const toggleTheme = document.querySelector('#toggle-theme');
 const toggleType = document.querySelector('#toggle-type');
+const loginButton = document.querySelector('#login');
 const url = '/api/v1/stats';
 let currentTheme = localStorage.getItem('home-theme') || 'light';
+let user_access_id;
 
 const colors = {
   light: {
@@ -25,6 +27,8 @@ window.addEventListener('load', () => {
   updateDomElements();
   Chart.defaults.global.defaultFontColor = colors[currentTheme].text;
   Chart.defaults.global.defaultFontSize = 20;
+  user_access_id = localStorage.getItem('user_access_id');
+  getData();
 });
 
 function updateDomElements() {
@@ -40,7 +44,7 @@ toggleType.addEventListener('click', () => {
   else
     chart.config.type = 'line';
   chart.update();
-})
+});
 
 toggleTheme.addEventListener('click', () => {
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -54,12 +58,20 @@ toggleTheme.addEventListener('click', () => {
   chart.update();
 });
 
-getData();
+loginButton.addEventListener('click', () => {
+  localStorage.clear();
+  window.location.replace('./index.html');
+});
+
 setInterval(() => getData(), 4000);
 
 async function getData() {
   try {
-    const stats = await fetch(url).then(res => res.json());
+    const stats = await fetch(url, {
+      headers: {
+        user_access_id: user_access_id
+      }
+    }).then(res => res.json());
     if (stats.error) {
       console.log(stats);
     }
@@ -67,7 +79,7 @@ async function getData() {
       updateStats(stats);
     }
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 }
 
