@@ -16,7 +16,7 @@ body {
 body nav {
   height: 60px;
   background-color: #333;
-  padding: 5px 20px;
+  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -28,22 +28,25 @@ body nav {
           align-items: center;
 }
 
-body nav h1 {
+body nav .logo {
+  margin: 0 10px;
   color: #fff;
   font-weight: normal;
 }
 
-body nav .btns #toggle-type {
-  margin-right: 20px;
+body nav .buttons-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-body nav .btns #toggle-theme {
-  margin-right: 20px;
-}
-
-body nav .btns .button {
+body nav .buttons-bar .button {
+  margin: 0 10px;
   font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   padding: 5px 20px;
@@ -56,13 +59,30 @@ body nav .btns .button {
   transition: all .1s linear;
 }
 
-body nav .btns .button:hover {
+body nav .buttons-bar .button:hover {
   background-color: #7028f6;
 }
 
-body nav .btns .button:active {
+body nav .buttons-bar .button:active {
   -webkit-transform: scale(1.05, 1);
           transform: scale(1.05, 1);
+}
+
+body nav .burger {
+  display: none;
+}
+
+body .burger {
+  margin: 0 10px;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+body .burger .burger-item {
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  margin: 5px 0;
 }
 
 body .stats {
@@ -91,11 +111,44 @@ body .chart-container {
 }
 
 @media screen and (max-width: 1000px) {
-  body nav .btns #toggle-type {
+  body nav .burger {
+    display: block;
+  }
+  body nav .buttons-bar {
+    display: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    background: #333;
+    height: calc(100vh - 60px);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+  }
+  body nav .buttons-bar #toggle-type {
     display: none;
   }
-  body nav .btns #to-json {
-    display: none;
+  body nav .buttons-bar #toggle-theme {
+    margin-bottom: 1px;
+  }
+  body nav .buttons-bar .button {
+    height: 50px;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+  }
+  body nav .buttons-bar .button:hover {
+    background-color: #8040F7;
+  }
+  body nav .buttons-bar .button:active {
+    background-color: #7028f6;
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+  body nav .open {
+    display: block;
   }
   body .chart-container {
     display: none;

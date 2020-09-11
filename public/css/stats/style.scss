@@ -13,26 +13,24 @@ body{
   nav{
     height: 60px;
     background-color: #333;
-    padding: 5px 20px;
+    padding: 0 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    h1{
+    .logo{
+      margin: 0 10px;
       color: #fff;
       font-weight: normal;
     }
 
-    .btns{
-      #toggle-type{
-        margin-right: 20px;
-      }
-      #toggle-theme{
-        margin-right: 20px;
-      }
+    .buttons-bar{
+      display: flex;
+      align-items: center;
       .button{
+        margin: 0 10px;
         font-family: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 18px;
+        font-size: 20px;
         -webkit-tap-highlight-color: transparent;
         cursor: pointer;
         padding: 5px 20px;
@@ -49,7 +47,22 @@ body{
           transform: scale(1.05,1);
         }
       }
+    }
 
+    .burger{
+      display: none;
+    }
+  }
+
+  .burger{
+    margin: 0 10px;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    .burger-item{
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      margin: 5px 0;
     }
   }
 
@@ -78,13 +91,40 @@ body{
 @media screen and (max-width: 1000px) {
   body {
     nav{
-      .btns{
+      .burger{
+        display: block;
+      }
+      .buttons-bar{
+        display: none;
+        flex-direction: column;
+        background: #333;
+        height: calc(100vh - 60px);
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
         #toggle-type{
           display: none; 
         }
-        #to-json{
-          display: none;
+        #toggle-theme{
+          margin-bottom: 1px;
         }
+        .button{
+          height: 50px;
+          border-radius: 0;
+          width: 100%;
+          margin: 0;
+          &:hover{
+            background-color: #8040F7;
+          }
+          &:active{
+            background-color: darken($color: #8040F7, $amount: 5);
+            transform: scale(1,1);
+          }
+        }
+      }
+      .open{
+        display: block;
       }
     }
     .chart-container{

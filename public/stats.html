@@ -12,11 +12,16 @@
 <body>
 
   <nav>
-    <h1>Home Stats</h1>
-    <div class="btns">
+    <h1 class="logo">Home Stats</h1>
+    <div class="buttons-bar">
       <button id="toggle-type" class="button">Tipo</button>
       <button id="toggle-theme" class="button">Tema</button>
       <button id="login" class="button">Logout</button>
+    </div>
+    <div class="burger">
+      <div class="burger-item"></div>
+      <div class="burger-item"></div>
+      <div class="burger-item"></div>
     </div>
   </nav>
 
@@ -30,6 +35,11 @@
     <canvas id="chart" aspectRatio="1"></canvas>
   </div>
 
+  <script>
+    document.querySelector('.burger').addEventListener('click', () => {
+      document.querySelector('.buttons-bar').classList.toggle('open');
+    });
+  </script>
   <script module src="./stats.js"></script>
 </body>
 
