@@ -24,10 +24,13 @@ const colors = {
 }
 
 window.addEventListener('load', () => {
+  user_access_id = localStorage.getItem('user_access_id');
+  if(!user_access_id) {
+    window.location.replace('./index.html');
+  }
   updateDomElements();
   Chart.defaults.global.defaultFontColor = colors[currentTheme].text;
   Chart.defaults.global.defaultFontSize = 20;
-  user_access_id = localStorage.getItem('user_access_id');
   getData();
 });
 
