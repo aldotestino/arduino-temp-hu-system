@@ -10,9 +10,9 @@ function Form({fields, onSubmit, submitLabel, children}) {
 
   return (
     <Box w={300}>
-      <form onSubmit={handleSubmit(values => {
+      <form onSubmit={handleSubmit(async values => {
         setLoading(true);
-        onSubmit(values);
+        await onSubmit(values);
         setLoading(false);
         reset();
       })}>

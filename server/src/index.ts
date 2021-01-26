@@ -4,7 +4,6 @@ import cors from 'cors';
 import SerialPort from 'serialport';
 import userRoute from './routes/userController';
 import { idExists } from './db/userService';
-
 import Stats from './Stats';
 
 const baudRate: number = 9600;

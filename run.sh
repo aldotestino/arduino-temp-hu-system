@@ -5,5 +5,6 @@ npm i;
 cd ../server;
 npm i;
 npm run build;
+cd ..
 pm2 start;
 pm2 save;
