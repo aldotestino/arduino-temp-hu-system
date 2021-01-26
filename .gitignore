@@ -1,4 +1,6 @@
-/node_modules
-/out
-connectionString.ts
-/.idea
+.idea
+/*/node_modules
+/*/build
+.eslintcache
+.DS_Store
+.env

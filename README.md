@@ -1,10 +1,11 @@
-# Arduino temperature and humidity node.js server
+# arduino-temp-hu-system by aldotestino
 
-## Libraries
-  * ### Express
-  * ### SerialPort
-  * ### Chart.js
+## Simple system to control temperature and humidty
 
-## Themes
-  * ### Light theme <img src="preview/light.png" alt="light" />
-  * ### Dark theme <img src="preview/dark.png" alt="dark" />
+### Version: 4.0.0
+
+### Languages: 
+* Javascript,
+* Typescript,
+* Node,
+* React
