@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo npm pm2 i -g 
+
 cd client;
 npm i;
 npm run build;
