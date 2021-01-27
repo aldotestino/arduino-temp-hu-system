@@ -7,9 +7,10 @@ module.exports = {
     },
     {
       name: "arduino-temp-hu-client",
-      cwd: "./client",
-      script: "npm",
-      args: "start",
+      cwd: "./client/build",
+      script: "npx",
+      interpreter: "none",
+      args: "serve -p 3000",
       watch: true
     }
   ]
