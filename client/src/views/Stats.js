@@ -1,14 +1,29 @@
-import {useEffect, useState, useMemo, useCallback} from 'react';
-import {Flex, Heading, VStack, Box, useMediaQuery} from '@chakra-ui/react';
+import {useEffect, useState, useMemo, useCallback, useRef} from 'react';
+import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode} from '@chakra-ui/react';
 import {Redirect} from 'react-router-dom';
-import {Line, Bar} from 'react-chartjs-2';
+import {Line, Bar, defaults} from 'react-chartjs-2';
 import {tempColor, huColor, serverUrl} from "../config";
 
-function Stats({id, graphtType}) {
+const options = {
+  responsive: true,
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+        }
+      }
+    ]
+  }
+};
+
+function Stats({id, graphType}) {
 
   const [stats, setStats] = useState(null);
+  const chartRef = useRef(null);
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
+  const {colorMode} = useColorMode();
 
   const fetchStats = useCallback(async () => {
     const res = await fetch(serverUrl+'/stats', {
@@ -21,21 +36,29 @@ function Stats({id, graphtType}) {
 
   useEffect(() => {
     fetchStats();
-
     const interval = setInterval(fetchStats, 3000);
-
     return () => clearInterval(interval);
   }, [fetchStats]);
 
+  useEffect(() => {
+    if(colorMode === 'dark') {
+      defaults.global.defaultFontColor = '#fff';
+    }else {
+      defaults.global.defaultFontColor = '#000'
+    }
+    chartRef.current.chartInstance.update();
+  }, [colorMode]);
+
   const data = useMemo(() => ({
     labels: stats?.story.dates.map(d => new Date(d).toLocaleTimeString()),
-      datasets: [
+    datasets: [
       {
         label: 'Temperatura',
         data: stats?.story.temps,
         fill: false,
         backgroundColor: tempColor,
         borderColor: tempColor,
+        yAxisId: 'temp'
       },
       {
         label: 'Umidità',
@@ -43,20 +66,10 @@ function Stats({id, graphtType}) {
         fill: false,
         backgroundColor: huColor,
         borderColor: huColor,
+        yAxisId: 'hu'
       },
     ],
   }), [stats]);
-
-  const options = {
-    responsive: true,
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-        }
-      }]
-    }
-  }
 
   return (
     <Flex my={4} justify="center">
@@ -67,9 +80,9 @@ function Stats({id, graphtType}) {
           <Heading>Umidità: {stats?.currentHu}%</Heading>
         </VStack>
         <Box position="relative" width={isLarger ? '60vw' : '98vw'}>
-          {graphtType === 'bar' ?
-            <Bar data={data} options={options} /> :
-            <Line data={data} options={options} />}
+          {graphType === 'bar' ?
+            <Bar ref={chartRef} data={data} options={options} /> :
+            <Line ref={chartRef} data={data} options={options} />}
         </Box>
       </VStack>
     </Flex>

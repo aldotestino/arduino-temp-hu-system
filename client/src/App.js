@@ -25,7 +25,7 @@ function App() {
           <Home id={id} setId={setId} />
         </Route>
         <Route exact path="/stats">
-          <Stats id={id} graphtType={graphType} />
+          <Stats id={id} graphType={graphType} />
         </Route>
       </Switch>
     </Router>
