@@ -4,12 +4,19 @@ import {HamburgerIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 import ColorModeSwitcher from "./ColorModeSwitcher";
 import SideBar from "./SideBar";
+import {GraphType} from '../types';
 
-function NavBar({graphType, setGraphType, logout}) {
+interface NavBarProps {
+  graphType: GraphType,
+  setGraphType: (graphType: GraphType) => void,
+  logout: () => void
+}
+
+function NavBar({graphType, setGraphType, logout}: NavBarProps) {
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const btnRef = useRef(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -17,7 +24,7 @@ function NavBar({graphType, setGraphType, logout}) {
         <Heading as={RouterLink} to="/">Stats</Heading>
         <Spacer />
         <ColorModeSwitcher />
-        <IconButton ml={4} icon={<HamburgerIcon w={6} h={6} />} ref={btnRef} onClick={onOpen} />
+        <IconButton aria-label="menu" ml={4} icon={<HamburgerIcon w={6} h={6} />} ref={btnRef} onClick={onOpen} />
       </Flex>
       <SideBar isOpen={isOpen} btnRef={btnRef} onClose={onClose} graphType={graphType} setGraphType={setGraphType} logout={logout} />
     </>

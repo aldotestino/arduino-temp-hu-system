@@ -3,7 +3,12 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import {Redirect} from "react-router-dom";
 
-function Home({id, setId}) {
+interface HomeProps {
+  id: string | null,
+  setId: (id: string) => void
+}
+
+function Home({id, setId}: HomeProps) {
   return (
     <Flex my={4} justify="center">
       {id && <Redirect to="/stats" />}

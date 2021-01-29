@@ -3,6 +3,8 @@ import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode} from '@chakra-u
 import {Redirect} from 'react-router-dom';
 import {Line, Bar, defaults} from 'react-chartjs-2';
 import {tempColor, huColor, serverUrl} from "../config";
+import { GraphType } from '../types';
+import {StatsI} from '../types';;
 
 const options = {
   responsive: true,
@@ -17,18 +19,23 @@ const options = {
   }
 };
 
-function Stats({id, graphType}) {
+interface StatsProps {
+  id: string | null,
+  graphType: GraphType
+}
 
-  const [stats, setStats] = useState(null);
-  const chartRef = useRef(null);
+function Stats({id, graphType}: StatsProps) {
+
+  const [stats, setStats] = useState<StatsI | null>(null);
+  const chartRef = useRef<any>(null);
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
   const {colorMode} = useColorMode();
 
   const fetchStats = useCallback(async () => {
-    const res = await fetch(serverUrl+'/stats', {
+    const res: StatsI = await fetch(serverUrl+'/stats', {
       headers: {
-        'user_access_id': id
+        'user_access_id': id!
       }
     }).then(r => r.json());
     setStats(res);
@@ -46,7 +53,7 @@ function Stats({id, graphType}) {
     }else {
       defaults.global.defaultFontColor = '#000'
     }
-    chartRef.current.chartInstance.update();
+    chartRef.current?.chartInstance.update();
   }, [colorMode]);
 
   const data = useMemo(() => ({

@@ -2,13 +2,19 @@ import {useState} from 'react';
 import {useToast, Checkbox} from '@chakra-ui/react';
 import Form from "./Form";
 import {colorScheme, serverUrl} from "../config";
+import {FieldI} from '../types';
+import {FieldValues} from 'react-hook-form';
 
-function Login({setId}) {
+interface LoginProps {
+  setId: (id: string) => void
+}
+
+function Login({setId}: LoginProps) {
 
   const toast = useToast();
   const [remember, setRemember] = useState(false);
 
-  const fields = [
+  const fields: Array<FieldI> = [
     {
       id: 'username',
       label: 'Username',
@@ -23,7 +29,7 @@ function Login({setId}) {
     }
   ];
 
-  async function onSubmit(values) {
+  async function onSubmit(values: FieldValues) {
     const {id, error} = await  fetch(serverUrl+'/user/login', {
       method: 'POST',
       headers: {

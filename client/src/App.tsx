@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from './views/Home';
 import Stats from "./views/Stats";
 import NavBar from "./components/NavBar";
+import {GraphType} from './types';
 
-const savedGraphType = localStorage.getItem('graphType') || 'bar';
+const savedGraphType = localStorage.getItem('graphType') as GraphType || GraphType.BAR;
 const savedId = localStorage.getItem('id') || null;
 
 function App() {

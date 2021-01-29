@@ -1,12 +1,18 @@
 import {useToast} from '@chakra-ui/react';
-import { serverUrl } from '../config';
+import {FieldValues} from 'react-hook-form';
+import {serverUrl} from '../config';
+import {FieldI} from '../types';
 import Form from "./Form";
 
-function Register({setId}) {
+interface RegisterProps {
+  setId: (id: string) => void
+}
+
+function Register({setId}: RegisterProps) {
 
   const toast = useToast();
 
-  const fields = [
+  const fields: Array<FieldI> = [
     {
       id: 'name',
       label: 'Nome',
@@ -33,8 +39,8 @@ function Register({setId}) {
     }
   ];
 
-  async function onSubmit(values) {
-    const {id, error} = await  fetch(serverUrl+'/user/register', {
+  async function onSubmit(values: FieldValues) {
+    const {id, error}: {id: string | undefined, error: string | undefined} = await  fetch(serverUrl+'/user/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -52,15 +58,17 @@ function Register({setId}) {
       });
       return;
     }
-    setId(id);
-    toast({
-      title: 'Registrazione',
-      description: 'Utente registrato con successo!',
-      duration: 5000,
-      status: 'success',
-      isClosable: true,
-      position: 'top-right'
-    });
+    if(id) {
+      setId(id);
+      toast({
+        title: 'Registrazione',
+        description: 'Utente registrato con successo!',
+        duration: 5000,
+        status: 'success',
+        isClosable: true,
+        position: 'top-right'
+      });
+    }
   }
 
   return (
