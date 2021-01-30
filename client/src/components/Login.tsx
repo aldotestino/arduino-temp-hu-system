@@ -2,29 +2,34 @@ import {useState} from 'react';
 import {useToast, Checkbox} from '@chakra-ui/react';
 import Form from "./Form";
 import {colorScheme, serverUrl} from "../config";
+import {FieldI, UserI} from '../types';
 
-function Login({setId}) {
+const fields: Array<FieldI> = [
+  {
+    id: 'username',
+    label: 'Username',
+    required: true,
+    type: 'text'
+  },
+  {
+    id: 'password',
+    label: 'Password',
+    required: true,
+    type: 'password'
+  }
+];
+
+interface LoginProps {
+  setId: (id: string) => void
+}
+
+function Login({setId}: LoginProps) {
 
   const toast = useToast();
   const [remember, setRemember] = useState(false);
 
-  const fields = [
-    {
-      id: 'username',
-      label: 'Username',
-      required: true,
-      type: 'text'
-    },
-    {
-      id: 'password',
-      label: 'Password',
-      required: true,
-      type: 'password'
-    }
-  ];
-
-  async function onSubmit(values) {
-    const {id, error} = await  fetch(serverUrl+'/user/login', {
+  async function onSubmit(values: UserI) {
+    const {id, error}: {id: string | undefined, error: string | undefined} = await  fetch(serverUrl+'/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -42,10 +47,12 @@ function Login({setId}) {
       });
       return;
     }
-    if(remember) {
-      localStorage.setItem('id', id);
+    if(id) {
+      if(remember) {
+        localStorage.setItem('id', id);
+      }
+      setId(id);
     }
-    setId(id);
   }
 
   return (

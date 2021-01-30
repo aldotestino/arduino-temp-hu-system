@@ -1,8 +1,8 @@
-import express, { Application, Request, Response } from 'express';
+import express, {Application, Request, Response} from 'express';
 import cors from 'cors';
 import SerialPort from 'serialport';
 import userRoute from './routes/userController';
-import { idExists } from './db/userService';
+import {idExists} from './db/userService';
 import Stats from './Stats';
 
 const baudRate: number = 9600;

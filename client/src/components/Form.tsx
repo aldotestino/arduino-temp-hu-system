@@ -1,12 +1,20 @@
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import {FormControl, FormLabel, Input, Button, Box, VStack} from '@chakra-ui/react';
 import {useForm} from "react-hook-form";
 import {colorScheme} from "../config";
+import {FieldI, UserI} from "../types";
 
-function Form({fields, onSubmit, submitLabel, children}) {
+interface FormProps {
+  fields: Array<FieldI>,
+  onSubmit: (values: UserI) => void,
+  submitLabel: string,
+  children?: ReactNode
+}
+
+function Form({fields, onSubmit, submitLabel, children}: FormProps) {
 
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const {register, handleSubmit, reset} = useForm<UserI>();
 
   return (
     <Box w={300}>
