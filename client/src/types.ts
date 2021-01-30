@@ -16,6 +16,13 @@ export interface StatsI {
   }
 };
 
+export interface UserI {
+  name?: string,
+  surname?: string,
+  username: string,
+  password: string
+}
+
 export enum GraphType {
   LINE = 'line',
   BAR = 'bar'

@@ -1,13 +1,25 @@
 import {useEffect, useState, useMemo, useCallback, useRef} from 'react';
 import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode} from '@chakra-ui/react';
 import {Redirect} from 'react-router-dom';
+import {ChartData, ChartOptions} from 'chart.js';
 import {Line, Bar, defaults} from 'react-chartjs-2';
 import {tempColor, huColor, serverUrl} from "../config";
-import { GraphType } from '../types';
-import {StatsI} from '../types';;
+import {GraphType} from '../types';
+import {StatsI} from '../types';
 
-const options = {
+const options: ChartOptions = {
   responsive: true,
+  legend: {
+    labels: {
+      fontSize: 18,
+    }
+  },
+  tooltips: {
+    titleFontSize: 18,
+    bodyFontSize: 15,
+    xPadding: 10,
+    yPadding: 10
+  },
   scales: {
     yAxes: [
       {
@@ -27,7 +39,7 @@ interface StatsProps {
 function Stats({id, graphType}: StatsProps) {
 
   const [stats, setStats] = useState<StatsI | null>(null);
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<Bar | Line | null>(null);
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
   const {colorMode} = useColorMode();
@@ -51,7 +63,7 @@ function Stats({id, graphType}: StatsProps) {
     if(colorMode === 'dark') {
       defaults.global.defaultFontColor = '#fff';
     }else {
-      defaults.global.defaultFontColor = '#000'
+      defaults.global.defaultFontColor = '#000';
     }
     chartRef.current?.chartInstance.update();
   }, [colorMode]);
@@ -65,18 +77,18 @@ function Stats({id, graphType}: StatsProps) {
         fill: false,
         backgroundColor: tempColor,
         borderColor: tempColor,
-        yAxisId: 'temp'
-      },
+        borderJoinStyle: 'round',
+      }, 
       {
         label: 'Umidità',
         data: stats?.story.hus,
         fill: false,
         backgroundColor: huColor,
         borderColor: huColor,
-        yAxisId: 'hu'
-      },
-    ],
-  }), [stats]);
+        borderJoinStyle: 'round'
+      }
+    ]
+  } as ChartData), [stats]);
 
   return (
     <Flex my={4} justify="center">

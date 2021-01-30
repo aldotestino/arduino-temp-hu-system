@@ -1,5 +1,5 @@
-import express, { Request, Response } from 'express';
-import { register, login } from '../db/userService';
+import express, {Request, Response} from 'express';
+import {register, login} from '../db/userService';
 import User from '../User';
 
 const userRoute = express.Router();

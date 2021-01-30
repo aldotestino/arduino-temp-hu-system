@@ -1,8 +1,34 @@
 import {useToast} from '@chakra-ui/react';
-import {FieldValues} from 'react-hook-form';
 import {serverUrl} from '../config';
-import {FieldI} from '../types';
+import {FieldI, UserI} from '../types';
 import Form from "./Form";
+
+const fields: Array<FieldI> = [
+  {
+    id: 'name',
+    label: 'Nome',
+    required: false,
+    type: 'text'
+  },
+  {
+    id: 'surname',
+    label: 'Cognome',
+    required: false,
+    type: 'text'
+  },
+  {
+    id: 'username',
+    label: 'Username',
+    required: true,
+    type: 'text'
+  },
+  {
+    id: 'password',
+    label: 'Password',
+    required: true,
+    type: 'password'
+  }
+];
 
 interface RegisterProps {
   setId: (id: string) => void
@@ -12,34 +38,7 @@ function Register({setId}: RegisterProps) {
 
   const toast = useToast();
 
-  const fields: Array<FieldI> = [
-    {
-      id: 'name',
-      label: 'Nome',
-      required: false,
-      type: 'text'
-    },
-    {
-      id: 'surname',
-      label: 'Cognome',
-      required: false,
-      type: 'text'
-    },
-    {
-      id: 'username',
-      label: 'Username',
-      required: true,
-      type: 'text'
-    },
-    {
-      id: 'password',
-      label: 'Password',
-      required: true,
-      type: 'password'
-    }
-  ];
-
-  async function onSubmit(values: FieldValues) {
+  async function onSubmit(values: UserI) {
     const {id, error}: {id: string | undefined, error: string | undefined} = await  fetch(serverUrl+'/user/register', {
       method: 'POST',
       headers: {

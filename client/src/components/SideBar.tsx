@@ -16,7 +16,7 @@ interface SideBarProps {
   isOpen: boolean,
   onClose: () => void,
   btnRef: RefObject<HTMLButtonElement>,
-  graphType: string,
+  graphType: GraphType,
   setGraphType: (graphType: GraphType) => void,
   logout: () => void,
 }
