@@ -13,7 +13,8 @@ export interface StatsI {
     temps: Array<number>,
     hus: Array<number>,
     dates: Array<Date>
-  }
+  },
+  error?: string
 };
 
 export interface UserI {

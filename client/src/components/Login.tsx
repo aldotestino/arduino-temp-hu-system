@@ -1,8 +1,9 @@
 import {useState} from 'react';
 import {useToast, Checkbox} from '@chakra-ui/react';
 import Form from "./Form";
-import {colorScheme, serverUrl} from "../config";
+import {colorScheme} from "../config";
 import {FieldI, UserI} from '../types';
+import {userApi, UserEndpoint} from '../api';
 
 const fields: Array<FieldI> = [
   {
@@ -29,13 +30,7 @@ function Login({setId}: LoginProps) {
   const [remember, setRemember] = useState(false);
 
   async function onSubmit(values: UserI) {
-    const {id, error}: {id: string | undefined, error: string | undefined} = await  fetch(serverUrl+'/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    }).then(r => r.json());
+    const {id, error} = await userApi(values, UserEndpoint.LOGIN);
     if(error) {
       toast({
         title: 'Login',

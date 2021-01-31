@@ -1,5 +1,5 @@
 import {useToast} from '@chakra-ui/react';
-import {serverUrl} from '../config';
+import {userApi, UserEndpoint} from '../api';
 import {FieldI, UserI} from '../types';
 import Form from "./Form";
 
@@ -39,13 +39,7 @@ function Register({setId}: RegisterProps) {
   const toast = useToast();
 
   async function onSubmit(values: UserI) {
-    const {id, error}: {id: string | undefined, error: string | undefined} = await  fetch(serverUrl+'/user/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    }).then(r => r.json());
+    const {id, error} = await userApi(values, UserEndpoint.REGISTER);
     if(error) {
       toast({
         title: 'Registrazione',

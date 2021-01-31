@@ -1,5 +1,5 @@
 import {useEffect, useState, useMemo, useCallback, useRef} from 'react';
-import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode} from '@chakra-ui/react';
+import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode, useToast} from '@chakra-ui/react';
 import {Redirect} from 'react-router-dom';
 import {ChartData, ChartOptions} from 'chart.js';
 import {Line, Bar, defaults} from 'react-chartjs-2';
@@ -43,15 +43,39 @@ function Stats({id, graphType}: StatsProps) {
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
   const {colorMode} = useColorMode();
+  const toast = useToast();
 
   const fetchStats = useCallback(async () => {
-    const res: StatsI = await fetch(serverUrl+'/stats', {
-      headers: {
-        'user_access_id': id!
+    try {
+      const res = await fetch(serverUrl+'/stat', {
+        headers: {
+          'user_access_id': id!
+        }
+      });
+      const statsResponse: StatsI = await res.json();
+      if(statsResponse.error) {
+        toast({
+          title: 'Stats',
+          description: 'Il servizio non è al momento disponibile!',
+          duration: 5000,
+          status: 'error',
+          isClosable: true,
+          position: 'top-right'
+        });
+        return;
       }
-    }).then(r => r.json());
-    setStats(res);
-  }, [id]);
+      setStats(statsResponse);
+    }catch(err) {
+      toast({
+        title: 'Stats',
+        description: 'Il servizio non è al momento disponibile!',
+        duration: 5000,
+        status: 'error',
+        isClosable: true,
+        position: 'top-right'
+      });
+    }
+  }, [id, toast]);
 
   useEffect(() => {
     fetchStats();
