@@ -47,7 +47,7 @@ function Stats({id, graphType}: StatsProps) {
 
   const fetchStats = useCallback(async () => {
     try {
-      const res = await fetch(serverUrl+'/stat', {
+      const res = await fetch(serverUrl+'/stats', {
         headers: {
           'user_access_id': id!
         }
