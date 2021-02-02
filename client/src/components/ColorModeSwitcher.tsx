@@ -1,16 +1,20 @@
-import {useColorMode, Switch} from '@chakra-ui/react';
-import {colorScheme} from "../config";
+import {useMemo} from 'react';
+import {useColorMode, IconButton, Tooltip} from '@chakra-ui/react';
+import {MoonIcon, SunIcon} from '@chakra-ui/icons';
 
 function ColorModeSwitcher() {
+  
   const {colorMode, toggleColorMode} = useColorMode();
+  const toolTipLabel = useMemo(() => 
+    colorMode === 'light' ? 'Dark Mode' : 'Light Mode', [colorMode]);
 
   return (
-    <Switch
-      size="lg"
-      isChecked={colorMode === 'dark'}
-      colorScheme={colorScheme}
-      onChange={toggleColorMode}
-    />
+    <Tooltip hasArrow label={toolTipLabel}>
+      <IconButton aria-label="color-switcher" 
+                  icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} 
+                  onClick={toggleColorMode}
+                  />
+    </Tooltip>
   );
 }
 

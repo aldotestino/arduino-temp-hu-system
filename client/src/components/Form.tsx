@@ -1,5 +1,15 @@
 import {ReactNode, useState} from "react";
-import {FormControl, FormLabel, Input, Button, Box, VStack} from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Box,
+  VStack,
+  InputGroup,
+  InputLeftElement,
+  FormErrorMessage
+} from '@chakra-ui/react';
 import {useForm} from "react-hook-form";
 import {colorScheme} from "../config";
 import {FieldI, UserI} from "../types";
@@ -14,7 +24,7 @@ interface FormProps {
 function Form({fields, onSubmit, submitLabel, children}: FormProps) {
 
   const [loading, setLoading] = useState(false);
-  const {register, handleSubmit, reset} = useForm<UserI>();
+  const {register, handleSubmit, reset, errors} = useForm<UserI>();
 
   return (
     <Box w={300}>
@@ -26,13 +36,46 @@ function Form({fields, onSubmit, submitLabel, children}: FormProps) {
       })}>
         <VStack spacing={4}>
           {fields.map((f,i) => (
-            <FormControl id={f.id} isRequired={f.required} key={i}>
+            <FormControl isInvalid={errors[f.id] ? true : false} isRequired={f.required} id={f.id} key={i}>
               <FormLabel>{f.label}</FormLabel>
-              <Input type={f.type} placeholder={f.label} name={f.id} ref={register} />
+              {f.icon ? 
+              <InputGroup>
+                <InputLeftElement pointerEvents="none" children={f.icon} /> 
+                <Input type={f.type} 
+                       placeholder={f.label} 
+                       name={f.id} 
+                       ref={register({
+                        required: {
+                          value: f.required,
+                          message: 'Questo campo è obbligatorio'
+                        },
+                        minLength: {
+                          value: f.minLength!,
+                          message: `Questo campo richiede almeno ${f.minLength} caratteri`
+                        }
+                      })} 
+                      />
+              </InputGroup> :
+                <Input type={f.type} 
+                       placeholder={f.label} 
+                       name={f.id} 
+                       ref={register({
+                         required: {
+                           value: f.required,
+                           message: 'Questo campo è obbligatorio'
+                         },
+                         minLength: {
+                           value: f.minLength!,
+                           message: `Questo campo richiede almeno ${f.minLength} caratteri`
+                         }
+                       })} 
+                       />
+              }
+              <FormErrorMessage>{errors[f.id]?.message}</FormErrorMessage>
             </FormControl>
           ))}
           {children}
-          <Button isLoading={loading} colorScheme={colorScheme} type="submit">{submitLabel}</Button>
+          <Button isDisabled={errors.password !== undefined || errors.username !== undefined} isLoading={loading} colorScheme={colorScheme} type="submit">{submitLabel}</Button>
         </VStack>
       </form>
     </Box>

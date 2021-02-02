@@ -7,8 +7,8 @@ enum UserEndpoint {
 }
 
 interface UserResponse {
-  id?: string | undefined,
-  error?: string | undefined
+  id?: string,
+  error?: string
 }
 
 async function userApi(values: UserI, endpoint: UserEndpoint): Promise<UserResponse> {
