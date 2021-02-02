@@ -23,6 +23,7 @@ async function userApi(values: UserI, endpoint: UserEndpoint): Promise<UserRespo
     const userResponse: UserResponse = await res.json();
     return userResponse; 
   }catch(e) {
+    console.log(e);
     return {
       error: 'Il servizio non è al momento disponibile!',
     }
