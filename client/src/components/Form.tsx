@@ -36,26 +36,11 @@ function Form({fields, onSubmit, submitLabel, children}: FormProps) {
       })}>
         <VStack spacing={4}>
           {fields.map((f,i) => (
-            <FormControl isInvalid={errors[f.id] ? true : false} isRequired={f.required} id={f.id} key={i}>
+            <FormControl isInvalid={!!errors[f.id]} isRequired={f.required} id={f.id} key={i}>
               <FormLabel>{f.label}</FormLabel>
               {f.icon ? 
               <InputGroup>
                 <InputLeftElement pointerEvents="none" children={f.icon} /> 
-                <Input type={f.type} 
-                       placeholder={f.label} 
-                       name={f.id} 
-                       ref={register({
-                        required: {
-                          value: f.required,
-                          message: 'Questo campo è obbligatorio'
-                        },
-                        minLength: {
-                          value: f.minLength!,
-                          message: `Questo campo richiede almeno ${f.minLength} caratteri`
-                        }
-                      })} 
-                      />
-              </InputGroup> :
                 <Input type={f.type} 
                        placeholder={f.label} 
                        name={f.id} 
@@ -68,14 +53,33 @@ function Form({fields, onSubmit, submitLabel, children}: FormProps) {
                            value: f.minLength!,
                            message: `Questo campo richiede almeno ${f.minLength} caratteri`
                          }
-                       })} 
-                       />
+                       })}
+                />
+              </InputGroup> :
+                <Input type={f.type}
+                       placeholder={f.label} 
+                       name={f.id} 
+                       ref={register({
+                         required: {
+                           value: f.required,
+                           message: 'Questo campo è obbligatorio'
+                         },
+                         minLength: {
+                           value: f.minLength!,
+                           message: `Questo campo richiede almeno ${f.minLength} caratteri`
+                         }
+                       })}
+                />
               }
               <FormErrorMessage>{errors[f.id]?.message}</FormErrorMessage>
             </FormControl>
           ))}
           {children}
-          <Button isDisabled={errors.password !== undefined || errors.username !== undefined} isLoading={loading} colorScheme={colorScheme} type="submit">{submitLabel}</Button>
+          <Button isDisabled={Object.values(errors).some(f => f !== undefined)}
+                  isLoading={loading}
+                  colorScheme={colorScheme}
+                  type="submit">{submitLabel}
+          </Button>
         </VStack>
       </form>
     </Box>
