@@ -47,25 +47,29 @@ function Stats({id, graphType}: StatsProps) {
 
   const fetchStats = useCallback(async () => {
     try {
-      const res = await fetch(serverUrl+'/stats', {
-        headers: {
-          'user_access_id': id!
-        }
-      });
-      const statsResponse: StatsI = await res.json();
-      if(statsResponse.error) {
-        toast({
-          title: 'Stats',
-          description: 'Il servizio non è al momento disponibile!',
-          duration: 5000,
-          status: 'error',
-          isClosable: true,
-          position: 'top-right'
+      if(id) {
+        const res = await fetch(serverUrl+'/stats', {
+          headers: {
+            'user_access_id': id
+          }
         });
-        return;
+        const statsResponse: StatsI = await res.json();
+        if(statsResponse.error) {
+          console.log(statsResponse.error);
+          toast({
+            title: 'Stats',
+            description: 'Il servizio non è al momento disponibile!',
+            duration: 5000,
+            status: 'error',
+            isClosable: true,
+            position: 'top-right'
+          });
+          return;
+        }
+        setStats(statsResponse);
       }
-      setStats(statsResponse);
-    }catch(err) {
+    }catch(e) {
+      console.log(e);
       toast({
         title: 'Stats',
         description: 'Il servizio non è al momento disponibile!',

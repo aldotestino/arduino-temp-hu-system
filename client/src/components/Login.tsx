@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useToast, Checkbox} from '@chakra-ui/react';
+import {AtSignIcon, LockIcon} from '@chakra-ui/icons';
 import Form from "./Form";
 import {colorScheme} from "../config";
 import {FieldI, UserI} from '../types';
@@ -10,13 +11,17 @@ const fields: Array<FieldI> = [
     id: 'username',
     label: 'Username',
     required: true,
-    type: 'text'
+    type: 'text',
+    minLength: 3,
+    icon: <AtSignIcon />
   },
   {
     id: 'password',
     label: 'Password',
     required: true,
-    type: 'password'
+    type: 'password',
+    minLength: 5,
+    icon: <LockIcon />
   }
 ];
 

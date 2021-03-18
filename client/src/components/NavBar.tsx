@@ -1,5 +1,5 @@
 import {useRef} from 'react';
-import {Flex, Heading, Spacer, IconButton, useDisclosure, useMediaQuery} from '@chakra-ui/react';
+import {Flex, Heading, Spacer, IconButton, Tooltip, useDisclosure, useMediaQuery} from '@chakra-ui/react';
 import {HamburgerIcon} from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom';
 import ColorModeSwitcher from "./ColorModeSwitcher";
@@ -24,7 +24,9 @@ function NavBar({graphType, setGraphType, logout}: NavBarProps) {
         <Heading as={RouterLink} to="/">Stats</Heading>
         <Spacer />
         <ColorModeSwitcher />
-        <IconButton aria-label="menu" ml={4} icon={<HamburgerIcon w={6} h={6} />} ref={btnRef} onClick={onOpen} />
+        <Tooltip hasArrow label="Opzioni">
+          <IconButton aria-label="menu" ml={4} icon={<HamburgerIcon />} ref={btnRef} onClick={onOpen} />
+        </Tooltip>
       </Flex>
       <SideBar isOpen={isOpen} btnRef={btnRef} onClose={onClose} graphType={graphType} setGraphType={setGraphType} logout={logout} />
     </>

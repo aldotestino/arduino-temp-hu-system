@@ -1,8 +1,12 @@
+import {ReactNode} from "react";
+
 export interface FieldI {
-  id: string,
+  id: keyof UserI,
   label: string,
   required: boolean,
-  type: string
+  type: string,
+  minLength?: number,
+  icon?: ReactNode,
 }
 
 export interface StatsI {

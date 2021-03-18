@@ -1,4 +1,5 @@
 import {useToast} from '@chakra-ui/react';
+import {AtSignIcon, InfoOutlineIcon, LockIcon} from '@chakra-ui/icons';
 import {userApi, UserEndpoint} from '../api';
 import {FieldI, UserI} from '../types';
 import Form from "./Form";
@@ -8,25 +9,31 @@ const fields: Array<FieldI> = [
     id: 'name',
     label: 'Nome',
     required: false,
-    type: 'text'
+    type: 'text',
+    icon: <InfoOutlineIcon />
   },
   {
     id: 'surname',
     label: 'Cognome',
     required: false,
-    type: 'text'
+    type: 'text',
+    icon: <InfoOutlineIcon />
   },
   {
     id: 'username',
     label: 'Username',
     required: true,
-    type: 'text'
+    type: 'text',
+    minLength: 3,
+    icon: <AtSignIcon />
   },
   {
     id: 'password',
     label: 'Password',
     required: true,
-    type: 'password'
+    type: 'password',
+    minLength: 5,
+    icon: <LockIcon />
   }
 ];
 
