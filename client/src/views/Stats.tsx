@@ -3,7 +3,7 @@ import {Flex, Heading, VStack, Box, useMediaQuery, useColorMode, useToast} from 
 import {Redirect} from 'react-router-dom';
 import {ChartData, ChartOptions} from 'chart.js';
 import {Line, Bar, defaults} from 'react-chartjs-2';
-import {tempColor, huColor, serverUrl} from "../config";
+import {tempColor, huColor, serverUrl} from '../config';
 import {GraphType} from '../types';
 import {StatsI} from '../types';
 
@@ -40,6 +40,7 @@ function Stats({id, graphType}: StatsProps) {
 
   const [stats, setStats] = useState<StatsI | null>(null);
   const chartRef = useRef<Bar | Line | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const [isLarger] = useMediaQuery('(min-width: 1000px)');
   const {colorMode} = useColorMode();
@@ -64,6 +65,7 @@ function Stats({id, graphType}: StatsProps) {
             isClosable: true,
             position: 'top-right'
           });
+          setError(true);
           return;
         }
         setStats(statsResponse);
@@ -82,10 +84,13 @@ function Stats({id, graphType}: StatsProps) {
   }, [id, toast]);
 
   useEffect(() => {
+    if(error) {
+      return;
+    }
     fetchStats();
     const interval = setInterval(fetchStats, 3000);
     return () => clearInterval(interval);
-  }, [fetchStats]);
+  }, [fetchStats, error]);
 
   useEffect(() => {
     if(colorMode === 'dark') {
@@ -119,14 +124,14 @@ function Stats({id, graphType}: StatsProps) {
   } as ChartData), [stats]);
 
   return (
-    <Flex my={4} justify="center">
-      {!id && <Redirect to="/" />}
+    <Flex my={4} justify='center'>
+      {!id && <Redirect to='/' />}
       <VStack spacing={4}>
         <VStack spacing={4}>
           <Heading>Temperatura: {stats?.currentTemp}°C</Heading>
           <Heading>Umidità: {stats?.currentHu}%</Heading>
         </VStack>
-        <Box position="relative" width={isLarger ? '60vw' : '98vw'}>
+        <Box position='relative' width={isLarger ? '60vw' : '98vw'}>
           {graphType === 'bar' ?
             <Bar ref={chartRef} data={data} options={options} /> :
             <Line ref={chartRef} data={data} options={options} />}

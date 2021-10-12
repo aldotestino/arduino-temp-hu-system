@@ -31,7 +31,7 @@ function SideBar({isOpen, onClose, btnRef, graphType, setGraphType, logout}: Sid
   return (
     <Drawer
       isOpen={isOpen}
-      placement="right"
+      placement='right'
       onClose={onClose}
       finalFocusRef={btnRef}
     >

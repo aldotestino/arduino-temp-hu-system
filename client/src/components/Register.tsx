@@ -2,7 +2,7 @@ import {useToast} from '@chakra-ui/react';
 import {AtSignIcon, InfoOutlineIcon, LockIcon} from '@chakra-ui/icons';
 import {userApi, UserEndpoint} from '../api';
 import {FieldI, UserI} from '../types';
-import Form from "./Form";
+import Form from './Form';
 
 const fields: Array<FieldI> = [
   {
@@ -72,7 +72,7 @@ function Register({setId}: RegisterProps) {
   }
 
   return (
-    <Form fields={fields} onSubmit={onSubmit} submitLabel="Registrati" />
+    <Form fields={fields} onSubmit={onSubmit} submitLabel='Registrati' />
   );
 }
 

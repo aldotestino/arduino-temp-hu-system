@@ -10,7 +10,7 @@ function ColorModeSwitcher() {
 
   return (
     <Tooltip hasArrow label={toolTipLabel}>
-      <IconButton aria-label="color-switcher" 
+      <IconButton aria-label='color-switcher' 
                   icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} 
                   onClick={toggleColorMode}
                   />

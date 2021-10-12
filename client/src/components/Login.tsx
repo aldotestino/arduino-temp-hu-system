@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import {useToast, Checkbox} from '@chakra-ui/react';
 import {AtSignIcon, LockIcon} from '@chakra-ui/icons';
-import Form from "./Form";
-import {colorScheme} from "../config";
+import Form from './Form';
+import {colorScheme} from '../config';
 import {FieldI, UserI} from '../types';
 import {userApi, UserEndpoint} from '../api';
 
@@ -56,9 +56,9 @@ function Login({setId}: LoginProps) {
   }
 
   return (
-    <Form fields={fields} onSubmit={onSubmit} submitLabel="Login">
+    <Form fields={fields} onSubmit={onSubmit} submitLabel='Login'>
       <Checkbox isChecked={remember} onChange={() => setRemember(!remember)}
-                alignSelf="flex-start" colorScheme={colorScheme}>
+                alignSelf='flex-start' colorScheme={colorScheme}>
         Ricordami
       </Checkbox>
     </Form>

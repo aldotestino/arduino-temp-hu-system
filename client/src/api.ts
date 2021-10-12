@@ -1,5 +1,5 @@
-import {serverUrl} from "./config";
-import {UserI} from "./types";
+import {serverUrl} from './config';
+import {UserI} from './types';
 
 enum UserEndpoint {
   LOGIN = 'login',

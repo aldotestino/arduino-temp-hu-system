@@ -1,16 +1,15 @@
 #include <Arduino.h>
 #include <dht_nonblocking.h>
 #define DHT_SENSOR_TYPE DHT_TYPE_11
-#define BLU 5
+#define BLUE 5
 #define GREEN 6
 #define RED 7
 
 static const int DHT_SENSOR_PIN = 2;
 DHT_nonblocking dht_sensor( DHT_SENSOR_PIN, DHT_SENSOR_TYPE );
 
-
 void setup( ) {
-  pinMode(BLU, OUTPUT);
+  pinMode(BLUE, OUTPUT);
   pinMode(GREEN, OUTPUT);
   pinMode(RED, OUTPUT);
   Serial.begin(9600);
@@ -32,7 +31,6 @@ static bool measure_environment( float *temperature, float *humidity ) {
   return( false );
 }
 
-
 void loop( ) {
   float temperature;
   float humidity;
@@ -45,13 +43,13 @@ void loop( ) {
     Serial.println();
 
     digitalWrite(RED, LOW);
-    digitalWrite(BLU, LOW);
+    digitalWrite(BLUE, LOW);
     digitalWrite(GREEN, LOW);
 
     if(temperature > 25) {
       digitalWrite(RED, HIGH);   
     } else if(temperature < 18) {
-      digitalWrite(BLU, HIGH);
+      digitalWrite(BLUE, HIGH);
     } else {
       digitalWrite(GREEN, HIGH);
     }

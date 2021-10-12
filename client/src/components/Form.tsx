@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {ReactNode, useState} from 'react';
 import {
   FormControl,
   FormLabel,
@@ -10,9 +10,9 @@ import {
   InputLeftElement,
   FormErrorMessage
 } from '@chakra-ui/react';
-import {useForm} from "react-hook-form";
-import {colorScheme} from "../config";
-import {FieldI, UserI} from "../types";
+import {useForm} from 'react-hook-form';
+import {colorScheme} from '../config';
+import {FieldI, UserI} from '../types';
 
 interface FormProps {
   fields: Array<FieldI>,
@@ -40,7 +40,7 @@ function Form({fields, onSubmit, submitLabel, children}: FormProps) {
               <FormLabel>{f.label}</FormLabel>
               {f.icon ? 
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={f.icon} /> 
+                <InputLeftElement pointerEvents='none' children={f.icon} /> 
                 <Input type={f.type} 
                        placeholder={f.label} 
                        name={f.id} 
@@ -78,7 +78,7 @@ function Form({fields, onSubmit, submitLabel, children}: FormProps) {
           <Button isDisabled={Object.values(errors).some(f => f !== undefined)}
                   isLoading={loading}
                   colorScheme={colorScheme}
-                  type="submit">{submitLabel}
+                  type='submit'>{submitLabel}
           </Button>
         </VStack>
       </form>
